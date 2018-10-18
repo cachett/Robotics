@@ -1,2 +1,2 @@
 # Robotics
-Repository for Robotic Project IC
+Repository for Robotic Project at Imperial College
