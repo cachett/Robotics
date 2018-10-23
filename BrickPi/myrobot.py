@@ -84,7 +84,7 @@ class MyRobot:
 robot = MyRobot([0,1], 3.5, 17.8)
 robot.interface.startLogging('logger.txt')
 
-robot.move_forward(10*math.pi)
+robot.move_forward(4*math.pi)
 #robot.right90deg()
 #robot.move_forward_cm(40.0)
 #robot.right90deg()
