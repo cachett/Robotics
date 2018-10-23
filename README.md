@@ -8,6 +8,10 @@ ssh into pi:
 
 ssh pi@146.169.222.33
 
-scp/sftp into pi:
+sftp into pi:
 
 sftp pi@146.169.222.33
+
+scp into pi:
+
+scp filename pi@ip:BrickPi/

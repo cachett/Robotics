@@ -39,5 +39,4 @@ while True:
 	print ("Destination reached!")
 
 interface.stopLogging()
-
 interface.terminate()
