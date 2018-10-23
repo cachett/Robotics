@@ -13,31 +13,19 @@ class MyRobot:
         self.interface.motorEnable(motors[0])
         self.interface.motorEnable(motors[1])
 
-        self.motor0Params = self.interface.MotorAngleControllerParameters()
-        self.motor0Params.maxRotationAcceleration = 6.0
-        self.motor0Params.maxRotationSpeed = 12.0
-        self.motor0Params.feedForwardGain = 255/20.0
-        self.motor0Params.minPWM = 18.0
-        self.motor0Params.pidParameters.minOutput = -255
-        self.motor0Params.pidParameters.maxOutput = 255
-        self.motor0Params.pidParameters.k_p = 100.0 #250.0
-        self.motor0Params.pidParameters.k_i = 0.0 #200.0
-        self.motor0Params.pidParameters.K_d = 0.0 #100.0
+        self.motorParams = self.interface.MotorAngleControllerParameters()
+        self.motorParams.maxRotationAcceleration = 6.0
+        self.motorParams.maxRotationSpeed = 12.0
+        self.motorParams.feedForwardGain = 255/20.0
+        self.motorParams.minPWM = 18.0
+        self.motorParams.pidParameters.minOutput = -255
+        self.motorParams.pidParameters.maxOutput = 255
+        self.motorParams.pidParameters.k_p = 100.0 #250.0
+        self.motorParams.pidParameters.k_i = 0.0 #200.0
+        self.motorParams.pidParameters.K_d = 0.0 #100.0
 
-
-        self.motor1Params = self.interface.MotorAngleControllerParameters()
-        self.motor1Params.maxRotationAcceleration = 6.0
-        self.motor1Params.maxRotationSpeed = 12.0
-        self.motor1Params.feedForwardGain = 255/20.0
-        self.motor1Params.minPWM = 18.0
-        self.motor1Params.pidParameters.minOutput = -255
-        self.motor1Params.pidParameters.maxOutput = 255
-        self.motor1Params.pidParameters.k_p = 100.0 #500.0
-        self.motor1Params.pidParameters.k_i = 0.0 #200.0
-        self.motor1Params.pidParameters.K_d = 0.0 #250.0
-
-        self.interface.setMotorAngleControllerParameters(motors[0],self.motor0Params)
-        self.interface.setMotorAngleControllerParameters(motors[1],self.motor1Params)
+        self.interface.setMotorAngleControllerParameters(motors[0],self.motorParams)
+        self.interface.setMotorAngleControllerParameters(motors[1],self.motorParams)
 
     def reach_target_angles(self, angle1, angle2):
         self.interface.increaseMotorAngleReferences(self.motors,[angle1,angle2])
@@ -84,7 +72,7 @@ class MyRobot:
 robot = MyRobot([0,1], 3.5, 17.8)
 robot.interface.startLogging('logger.txt')
 
-robot.move_forward(10*math.pi)
+robot.move_forward(4*math.pi)
 #robot.right90deg()
 #robot.move_forward_cm(40.0)
 #robot.right90deg()
