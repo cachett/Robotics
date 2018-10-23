@@ -57,11 +57,7 @@ class MyRobot:
                 if count >= 10:
                     break
                 previous_total_angle_difference = total_angle_difference
-<<<<<<< HEAD
             time.sleep(0.1)
-=======
-            time.sleep(0.01)
->>>>>>> 383894307211159268d0664d1871faf2a8bc5d31
 
     def move_forward(self, angle):
         self.reach_target_angles(angle, angle)
