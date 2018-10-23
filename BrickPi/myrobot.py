@@ -20,9 +20,9 @@ class MyRobot:
         self.motor0Params.minPWM = 18.0
         self.motor0Params.pidParameters.minOutput = -255
         self.motor0Params.pidParameters.maxOutput = 255
-        self.motor0Params.pidParameters.k_p = 100.0 #250.0
-        self.motor0Params.pidParameters.k_i = 0.0 #200.0
-        self.motor0Params.pidParameters.K_d = 0.0 #100.0
+        self.motor0Params.pidParameters.k_p = 800.0 #250.0
+        self.motor0Params.pidParameters.k_i = 800.0 #200.0
+        self.motor0Params.pidParameters.K_d = 800.0 #100.0
 
 
         self.motor1Params = self.interface.MotorAngleControllerParameters()
@@ -32,9 +32,9 @@ class MyRobot:
         self.motor1Params.minPWM = 18.0
         self.motor1Params.pidParameters.minOutput = -255
         self.motor1Params.pidParameters.maxOutput = 255
-        self.motor1Params.pidParameters.k_p = 100.0 #500.0
-        self.motor1Params.pidParameters.k_i = 0.0 #200.0
-        self.motor1Params.pidParameters.K_d = 0.0 #250.0
+        self.motor1Params.pidParameters.k_p = 800.0 #500.0
+        self.motor1Params.pidParameters.k_i = 800.0 #200.0
+        self.motor1Params.pidParameters.K_d = 800.0 #250.0
 
         self.interface.setMotorAngleControllerParameters(motors[0],self.motor0Params)
         self.interface.setMotorAngleControllerParameters(motors[1],self.motor1Params)
@@ -84,7 +84,7 @@ class MyRobot:
 robot = MyRobot([0,1], 3.5, 17.8)
 robot.interface.startLogging('logger.txt')
 
-robot.move_forward_cm(40.0)
+robot.move_forward_cm(20.0)
 #robot.right90deg()
 #robot.move_forward_cm(40.0)
 #robot.right90deg()
