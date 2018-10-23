@@ -57,7 +57,11 @@ class MyRobot:
                 if count >= 10:
                     break
                 previous_total_angle_difference = total_angle_difference
+<<<<<<< HEAD
             time.sleep(0.1)
+=======
+            time.sleep(0.01)
+>>>>>>> 383894307211159268d0664d1871faf2a8bc5d31
 
     def move_forward(self, angle):
         self.reach_target_angles(angle, angle)
@@ -74,14 +78,21 @@ class MyRobot:
 
     def turn(self, side, angle):
         if side == "left":
+<<<<<<< HEAD
             self.reach_target_angles(-self.distance_to_wheel_angle(self.robotwidth*angle/2), self.distance_to_wheel_angle(self.robotwidth*angle/2) )
         elif side == "right":
             self.reach_target_angles(self.distance_to_wheel_angle(self.robotwidth*angle/2), -self.distance_to_wheel_angle(self.robotwidth*angle/2) )
+=======
+            self.reach_target_angles(-self.distance_to_wheel_angle(self, self.robotwidth*angle/2), self.distance_to_wheel_angle(self, self.robotwidth*angle/2) )
+        elif side == "right":
+            self.reach_target_angles(self.distance_to_wheel_angle(self, self.robotwidth*angle/2), -self.distance_to_wheel_angle(self, self.robotwidth*angle/2) )
+>>>>>>> 383894307211159268d0664d1871faf2a8bc5d31
         else:
             print("Unknown command. Expected 'left' or 'right' in turn method")
 
 
 robot = MyRobot([0,1], 3.5, 17.8)
+<<<<<<< HEAD
 robot.interface.startLogging('logger.txt')
 
 robot.move_forward_cm(40.0)
@@ -95,3 +106,13 @@ robot.move_forward_cm(40.0)
 
 robot.interface.stopLogging()
 robot.interface.terminate()
+=======
+robot.move_forward_cm(40.0)
+robot.right90deg()
+robot.move_forward_cm(40.0)
+robot.right90deg()
+robot.move_forward_cm(40.0)
+robot.turn('right', math.pi/2)
+robot.move_forward_cm(40.0)
+robot.right90deg()
+>>>>>>> 383894307211159268d0664d1871faf2a8bc5d31
