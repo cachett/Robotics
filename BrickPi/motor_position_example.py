@@ -23,9 +23,10 @@ motorParams.pidParameters.k_d = 100.0#To modify
 interface.setMotorAngleControllerParameters(motors[0],motorParams)
 interface.setMotorAngleControllerParameters(motors[1],motorParams)
 
-interface.startLogging("logger.txt")
+
 
 while True:
+	interface.startLogging("logger.txt")
 	angle = float(input("Enter a angle to rotate (in radians): "))
 
 	interface.increaseMotorAngleReferences(motors,[angle,angle])
@@ -35,8 +36,7 @@ while True:
 		if motorAngles :
 			print ("Motor angles: ", motorAngles[0][0], ", ", motorAngles[1][0])
 		time.sleep(0.1)
-
-	print ("Destination reached!")
+	print("Destination reached!")
 
 interface.stopLogging()
 interface.terminate()
