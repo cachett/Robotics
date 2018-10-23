@@ -20,9 +20,9 @@ class MyRobot:
         self.motorParams.minPWM = 18.0
         self.motorParams.pidParameters.minOutput = -255
         self.motorParams.pidParameters.maxOutput = 255
-        self.motorParams.pidParameters.k_p = 100.0 #250.0
-        self.motorParams.pidParameters.k_i = 0.0 #200.0
-        self.motorParams.pidParameters.K_d = 0.0 #100.0
+        self.motorParams.pidParameters.k_p = 700.0 #250.0
+        self.motorParams.pidParameters.k_i = 950.0 #200.0
+        self.motorParams.pidParameters.K_d = 20.0 #100.0
 
         self.interface.setMotorAngleControllerParameters(motors[0],self.motorParams)
         self.interface.setMotorAngleControllerParameters(motors[1],self.motorParams)
@@ -53,9 +53,6 @@ class MyRobot:
     def move_forward_cm(self, distance):
         self.move_forward((1.0/self.wheelradius)*distance)
 
-    def right90deg(self):
-        self.reach_target_angles((self.robotwidth/(4.0*self.wheelradius))*math.pi, -(self.robotwidth/(4.0*self.wheelradius))*math.pi)
-
     def distance_to_wheel_angle(self, distance):
         return distance/self.wheelradius
 
@@ -69,17 +66,12 @@ class MyRobot:
             print("Unknown command. Expected 'left' or 'right' in turn method")
 
 
-robot = MyRobot([0,1], 3.5, 17.8)
+robot = MyRobot([0,1], 3.4, 16.6)
 robot.interface.startLogging('logger.txt')
-
-robot.move_forward(4*math.pi)
-#robot.right90deg()
-#robot.move_forward_cm(40.0)
-#robot.right90deg()
-#robot.move_forward_cm(20.0)
-#robot.turn('right', math.pi/2)
-#robot.move_forward_cm(40.0)
-#robot.right90deg()
+for i in range(10):
+    for i in range(4):
+        robot.move_forward_cm(20.0)
+        robot.turn('right', math.pi/2)
 
 robot.interface.stopLogging()
 robot.interface.terminate()
