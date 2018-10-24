@@ -13,19 +13,29 @@ class MyRobot:
         self.interface.motorEnable(motors[0])
         self.interface.motorEnable(motors[1])
 
-        self.motorParams = self.interface.MotorAngleControllerParameters()
-        self.motorParams.maxRotationAcceleration = 6.0
-        self.motorParams.maxRotationSpeed = 12.0
-        self.motorParams.feedForwardGain = 255/20.0
-        self.motorParams.minPWM = 18.0
-        self.motorParams.pidParameters.minOutput = -255
-        self.motorParams.pidParameters.maxOutput = 255
-        self.motorParams.pidParameters.k_p = 700.0 #250.0
-        self.motorParams.pidParameters.k_i = 950.0 #200.0
-        self.motorParams.pidParameters.K_d = 20.0 #100.0
+        self.motor0Params = self.interface.MotorAngleControllerParameters()
+        self.motor0Params.maxRotationAcceleration = 6.0
+        self.motor0Params.maxRotationSpeed = 12.0
+        self.motor0Params.feedForwardGain = 255/20.0
+        self.motor0Params.minPWM = 18.0
+        self.motor0Params.pidParameters.minOutput = -255
+        self.motor0Params.pidParameters.maxOutput = 255
+        self.motor0Params.pidParameters.k_p = 700.0 #250.0
+        self.motor0Params.pidParameters.k_i = 950.0 #200.0
+        self.motor0Params.pidParameters.K_d = 20.0 #100.0
+        self.interface.setMotorAngleControllerParameters(motors[0],self.motor0Params)
 
-        self.interface.setMotorAngleControllerParameters(motors[0],self.motorParams)
-        self.interface.setMotorAngleControllerParameters(motors[1],self.motorParams)
+        self.motor1Params = self.interface.MotorAngleControllerParameters()
+        self.motor1Params.maxRotationAcceleration = 6.0
+        self.motor1Params.maxRotationSpeed = 12.0
+        self.motor1Params.feedForwardGain = 255/20.0
+        self.motor1Params.minPWM = 18.0
+        self.motor1Params.pidParameters.minOutput = -255
+        self.motor1Params.pidParameters.maxOutput = 255
+        self.motor1Params.pidParameters.k_p = 700.0 #250.0
+        self.motor1Params.pidParameters.k_i = 950.0 #200.0
+        self.motor1Params.pidParameters.K_d = 20.0 #100.0
+        self.interface.setMotorAngleControllerParameters(motors[1],self.motor1Params)
 
     def reach_target_angles(self, angle1, angle2):
         self.interface.increaseMotorAngleReferences(self.motors,[angle1,angle2])
@@ -42,7 +52,7 @@ class MyRobot:
                     count += 1
                 else:
                     count = 0
-                if count >= 10:
+                if count >= 30:
                     break
                 previous_total_angle_difference = total_angle_difference
             time.sleep(0.1)
@@ -56,7 +66,6 @@ class MyRobot:
     def distance_to_wheel_angle(self, distance):
         return distance/self.wheelradius
 
-
     def turn(self, side, angle):
         if side == "left":
             self.reach_target_angles(-self.distance_to_wheel_angle(self.robotwidth*angle/2), self.distance_to_wheel_angle(self.robotwidth*angle/2))
@@ -65,19 +74,24 @@ class MyRobot:
         else:
             print("Unknown command. Expected 'left' or 'right' in turn method")
 
+    def setP(self, p):
+        self.motor1Params.pidParameters.k_p = p #250.0
+        self.interface.setMotorAngleControllerParameters(self.motors[1],self.motor1Params)
 
-robot = MyRobot([0,1], 3.4, 16.6)
+
+# for r in range(4):
+
+# width = float(input("Enter a p value: "))
+robot = MyRobot([0,1], 2.7, 15.74)
 robot.interface.startLogging('logger.txt')
-p = float(input("Enter a p value: "))
+# robot.move_forward(4 * math.pi)
+# robot.setP(p + 50*r)
+# robot.move_forward_cm(10.0)
 
-for r in range(4):
-    robot.setP(p + 25 * i)
-    robot.move_forward_cm(10.0)
-
-    # for i in range(10):
-    #     for i in range(4):
-    #         robot.move_forward_cm(20.0)
-    #         robot.turn('right', math.pi/2)
+for i in range(3):
+    for i in range(4):
+        robot.move_forward_cm(40.0)
+        robot.turn('right', math.pi/2)
 
 robot.interface.stopLogging()
 robot.interface.terminate()

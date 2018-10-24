@@ -19,37 +19,22 @@ import sys
 
 
 filename = sys.argv[1]
-
 fd = open(filename, "r")
-
 array = fd.readlines()
-
 final_array = []
 
 for line in array:
-
     line_array = line[:-1].split('\t')[:-1]
-
     final_line = []
 
     for elt in line_array:
-
         if elt == '':
-
             continue
-
         else:
-
             final_line.append(float(elt))
 
     if len(line_array) == 5:
-
         final_array.append(final_line)
-
-
-
-
-
 
 
 ##/////////////////////////////////////////////////// PLOT DATA \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\##
@@ -70,13 +55,11 @@ motor0_angle_error = [elt[2] - elt[1] for elt in final_array]
 
 motor1_angle_error = [elt[4] - elt[3] for elt in final_array]
 
-
-
 plt.figure(0)
 
-plt.plot(time, motor0_angle, label = "motor0 angle")
-
-plt.plot(time, motor0_angle_goal, label="motor0 reference angle")
+# plt.plot(time, motor0_angle, label = "motor0 angle")
+#
+# plt.plot(time, motor0_angle_goal, label="motor0 reference angle")
 
 plt.plot(time, motor1_angle, label="motor1 angle")
 
@@ -95,40 +78,40 @@ plt.grid(True)
 plt.savefig("motor0_angle.png")
 
 
-
-plt.figure(1)
-
-plt.plot(time, motor0_angle_error, label = "motor0 Angle Error")
-
-plt.xlabel('Time (s)')
-
-plt.ylabel('Angle (rad)')
-
-plt.legend()
-
-plt.title('Error of motor0 angle over time')
-
-plt.grid(True)
-
-plt.savefig("motor0_error.png")
-
-
-
-plt.figure(2)
-
-plt.plot(time, motor1_angle_error, label = "motor1 Angle Error")
-
-plt.xlabel('Time (s)')
-
-plt.ylabel('Angle (rad)')
-
-plt.legend()
-
-plt.title('Error of motor0 angle over time')
-
-plt.grid(True)
-
-plt.savefig("motor1_error.png")
+#
+# plt.figure(1)
+#
+# plt.plot(time, motor0_angle_error, label = "motor0 Angle Error")
+#
+# plt.xlabel('Time (s)')
+#
+# plt.ylabel('Angle (rad)')
+#
+# plt.legend()
+#
+# plt.title('Error of motor0 angle over time')
+#
+# plt.grid(True)
+#
+# plt.savefig("motor0_error.png")
+#
+#
+#
+# plt.figure(2)
+#
+# plt.plot(time, motor1_angle_error, label = "motor1 Angle Error")
+#
+# plt.xlabel('Time (s)')
+#
+# plt.ylabel('Angle (rad)')
+#
+# plt.legend()
+#
+# plt.title('Error of motor0 angle over time')
+#
+# plt.grid(True)
+#
+# plt.savefig("motor1_error.png")
 
 
 
