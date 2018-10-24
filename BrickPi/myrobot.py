@@ -68,10 +68,16 @@ class MyRobot:
 
 robot = MyRobot([0,1], 3.4, 16.6)
 robot.interface.startLogging('logger.txt')
-for i in range(10):
-    for i in range(4):
-        robot.move_forward_cm(20.0)
-        robot.turn('right', math.pi/2)
+p = float(input("Enter a p value: "))
+
+for r in range(4):
+    robot.setP(p + 25 * i)
+    robot.move_forward_cm(10.0)
+
+    # for i in range(10):
+    #     for i in range(4):
+    #         robot.move_forward_cm(20.0)
+    #         robot.turn('right', math.pi/2)
 
 robot.interface.stopLogging()
 robot.interface.terminate()
