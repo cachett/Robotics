@@ -1,10 +1,13 @@
 import brickpi
 import time
 import math
+import random
 
 class MyRobot:
 
     def __init__(self, motors, wheelradius, robotwidth):
+
+        #Initialization of robot Interface
         self.interface = brickpi.Interface()
         self.interface.initialize()
         self.wheelradius = wheelradius
@@ -13,6 +16,13 @@ class MyRobot:
         self.interface.motorEnable(motors[0])
         self.interface.motorEnable(motors[1])
 
+        #TOUCH SENSOR
+        self.touch_port = [1, 3] #port 1 = left, port 3 = right
+        self.interface.sensorEnable(self.touch_port[0], brickpi.SensorType.SENSOR_TOUCH)
+        self.interface.sensorEnable(self.touch_port[1], brickpi.SensorType.SENSOR_TOUCH)
+
+
+        #PID's Parameters motor 0
         self.motor0Params = self.interface.MotorAngleControllerParameters()
         self.motor0Params.maxRotationAcceleration = 6.0
         self.motor0Params.maxRotationSpeed = 12.0
@@ -25,6 +35,7 @@ class MyRobot:
         self.motor0Params.pidParameters.K_d = 20.0 #100.0
         self.interface.setMotorAngleControllerParameters(motors[0],self.motor0Params)
 
+        #PID's Parameters motor 1
         self.motor1Params = self.interface.MotorAngleControllerParameters()
         self.motor1Params.maxRotationAcceleration = 6.0
         self.motor1Params.maxRotationSpeed = 12.0
@@ -51,14 +62,14 @@ class MyRobot:
 
     def reach_target_angles(self, angle1, angle2):
         self.interface.increaseMotorAngleReferences(self.motors,[angle1,angle2])
-        previous_total_angle_difference = 1000 #random value
-        count = 0
+
+        #code below only aimed to display angles
         while not self.interface.motorAngleReferencesReached(self.motors) :
-            motorAngles = self.interface.getMotorAngles(self.motors)
-            referenceAngles = self.interface.getMotorAngleReferences(self.motors)
-            if motorAngles :
-                print "Motor angles: ", motorAngles[0][0], ", ", motorAngles[1][0]
-                print "Want to reach ", referenceAngles[0], ", ", referenceAngles[1]
+          #  motorAngles = self.interface.getMotorAngles(self.motors)
+          #  referenceAngles = self.interface.getMotorAngleReferences(self.motors)
+          #  if motorAngles :
+          #      print "Motor angles: ", motorAngles[0][0], ", ", motorAngles[1][0]
+          #      print "Want to reach ", referenceAngles[0], ", ", referenceAngles[1]
             time.sleep(0.07)
 
     def move_forward(self, angle):
@@ -78,13 +89,60 @@ class MyRobot:
         else:
             print("Unknown command. Expected 'left' or 'right' in turn method")
 
-if __name__ == '__main__':
+
+    def avoid_obstacle(self, touched_0, touched_1):
+        self.move_forward_cm(-5)
+        direction = ['left', 'right']
+
+        if touched_0 and touched_1:
+            #obstacle in front of us
+            self.turn(direction[random.randint(0,1)], random.randint(90,175)*math.pi/180)
+        elif touched_0:
+            #obstacle to the left
+            self.turn(direction[1], random.randint(90,175)*math.pi/180)
+
+        elif touched_1:
+            #obstacle to the right
+            self.turn(direction[0], random.randint(90,175)*math.pi/180)
+
+    def square(self, length):
+        for _ in range(4):
+            robot.move_forward_cm(length)
+            robot.turn('right', math.pi/2)
+
+    def move_forward_avoid_obstacles(self):
+        """
+        Continueously move foward until it reaches an obstacle. Then avoid it and keep moving forward.
+        """
+        angle1 = 10
+        angle2 = 10
+        while True:
+            state_touch_sensor_0 = self.interface.getSensorValue(self.touch_port[0])
+            state_touch_sensor_1 = self.interface.getSensorValue(self.touch_port[1])
+            if state_touch_sensor_0 and state_touch_sensor_1:
+                #handle obstacle
+                touched_0 = state_touch_sensor_0[0]
+                touched_1 = state_touch_sensor_1[0]
+		print(touched_0)
+		print(touched_1)
+                if touched_0 or touched_1:
+                    self.avoid_obstacle(touched_0, touched_1)
+                else:
+                    #keep moving foward
+                    angle1 += 1
+                    angle2 += 1
+                    self.interface.increaseMotorAngleReferences(self.motors,[angle1,angle2])
+
+
+def main():
     robot = MyRobot([0,1], 2.74, 15.97)
     robot.interface.startLogging('logger.txt')
 
-    for i in range(4):
-        robot.move_forward_cm(40.0)
-        robot.turn('right', math.pi/2)
+    robot.move_forward_avoid_obstacles()
+
 
     robot.interface.stopLogging()
     robot.interface.terminate()
+
+if __name__ == '__main__':
+    main()
