@@ -37,6 +37,18 @@ class MyRobot:
         self.motor1Params.pidParameters.K_d = 20.0 #100.0
         self.interface.setMotorAngleControllerParameters(motors[1],self.motor1Params)
 
+    def update_tuning(self):
+        self.motor0Params.pidParameters.k_p = 100.0 #250.0
+        self.motor0Params.pidParameters.k_i = 0.0 #200.0
+        self.motor0Params.pidParameters.K_d = 0.0 #100.0
+        self.interface.setMotorAngleControllerParameters(self.motors[0],self.motor0Params)
+
+        self.motor1Params.pidParameters.k_p = 100.0 #250.0
+        self.motor1Params.pidParameters.k_i = 0.0 #200.0
+        self.motor1Params.pidParameters.K_d = 0.0 #100.0
+        self.interface.setMotorAngleControllerParameters(self.motors[1],self.motor1Params)
+
+
     def reach_target_angles(self, angle1, angle2):
         self.interface.increaseMotorAngleReferences(self.motors,[angle1,angle2])
         previous_total_angle_difference = 1000 #random value
@@ -66,16 +78,13 @@ class MyRobot:
         else:
             print("Unknown command. Expected 'left' or 'right' in turn method")
 
-    def setP(self, p):
-        self.motor1Params.pidParameters.k_p = p #250.0
-        self.interface.setMotorAngleControllerParameters(self.motors[1],self.motor1Params)
+if __name__ == '__main__':
+    robot = MyRobot([0,1], 2.74, 15.97)
+    robot.interface.startLogging('logger.txt')
 
-robot = MyRobot([0,1], 2.74, 15.97)
-robot.interface.startLogging('logger.txt')
+    for i in range(4):
+        robot.move_forward_cm(40.0)
+        robot.turn('right', math.pi/2)
 
-for i in range(4):
-    robot.move_forward_cm(40.0)
-    robot.turn('right', math.pi/2)
-
-robot.interface.stopLogging()
-robot.interface.terminate()
+    robot.interface.stopLogging()
+    robot.interface.terminate()
