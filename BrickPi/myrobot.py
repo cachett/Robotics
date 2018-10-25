@@ -79,17 +79,9 @@ class MyRobot:
         self.interface.setMotorAngleControllerParameters(self.motors[1],self.motor1Params)
 
 
-# for r in range(4):
-
-# rad = float(input("Enter a rad value: ")) #2.7
-# 41cm squares with 2.7, 15.74
 robot = MyRobot([0,1], 2.74, 15.97)
 robot.interface.startLogging('logger.txt')
-# robot.move_forward(4 * math.pi)
-# robot.setP(p + 50*r)
-# robot.move_forward_cm(40.0)
 
-# for i in range(3):
 for i in range(4):
     robot.move_forward_cm(40.0)
     robot.turn('right', math.pi/2)
