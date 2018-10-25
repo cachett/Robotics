@@ -52,7 +52,7 @@ class MyRobot:
                     count += 1
                 else:
                     count = 0
-                if count >= 30:
+                if count >= 4:
                     break
                 previous_total_angle_difference = total_angle_difference
             time.sleep(0.1)
