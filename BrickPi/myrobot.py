@@ -47,15 +47,7 @@ class MyRobot:
             if motorAngles :
                 print "Motor angles: ", motorAngles[0][0], ", ", motorAngles[1][0]
                 print "Want to reach ", referenceAngles[0], ", ", referenceAngles[1]
-                total_angle_difference = abs(motorAngles[0][0] - referenceAngles[0]) + abs(motorAngles[1][0] - referenceAngles[1])
-                if previous_total_angle_difference == total_angle_difference:
-                    count += 1
-                else:
-                    count = 0
-                if count >= 30:
-                    break
-                previous_total_angle_difference = total_angle_difference
-            time.sleep(0.1)
+            time.sleep(0.07)
 
     def move_forward(self, angle):
         self.reach_target_angles(angle, angle)
@@ -78,18 +70,9 @@ class MyRobot:
         self.motor1Params.pidParameters.k_p = p #250.0
         self.interface.setMotorAngleControllerParameters(self.motors[1],self.motor1Params)
 
-
-# for r in range(4):
-
-# rad = float(input("Enter a rad value: ")) #2.7
-# 41cm squares with 2.7, 15.74
 robot = MyRobot([0,1], 2.74, 15.97)
 robot.interface.startLogging('logger.txt')
-# robot.move_forward(4 * math.pi)
-# robot.setP(p + 50*r)
-# robot.move_forward_cm(40.0)
 
-# for i in range(3):
 for i in range(4):
     robot.move_forward_cm(40.0)
     robot.turn('right', math.pi/2)
