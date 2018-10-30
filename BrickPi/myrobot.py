@@ -70,9 +70,15 @@ class MyRobot:
         check_frequency = 40
         discretised_distance = speed/check_frequency
         while distance > 0:
+            first_timer = time.clock()
             self.move_forward((1.0/self.wheelradius)*discretised_distance)
             distance -= discretised_distance
-            time.sleep(1.0/check_frequency)
+            first_timer -= time.clock()
+            to_wait = 1.0/check_frequency - first_timer
+            print(first_timer)
+            print(to_wait)
+            if to_wait > 0:
+                time.sleep(to_wait)
 
     def distance_to_wheel_angle(self, distance):
         return distance/self.wheelradius
