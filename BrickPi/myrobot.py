@@ -48,22 +48,12 @@ class MyRobot:
         self.motor1Params.pidParameters.K_d = 20.0 #100.0
         self.interface.setMotorAngleControllerParameters(motors[1],self.motor1Params)
 
-    def update_tuning(self):
-        self.motor0Params.pidParameters.k_p = 100.0 #250.0
-        self.motor0Params.pidParameters.k_i = 0.0 #200.0
-        self.motor0Params.pidParameters.K_d = 0.0 #100.0
-        self.interface.setMotorAngleControllerParameters(self.motors[0],self.motor0Params)
-
-        self.motor1Params.pidParameters.k_p = 100.0 #250.0
-        self.motor1Params.pidParameters.k_i = 0.0 #200.0
-        self.motor1Params.pidParameters.K_d = 0.0 #100.0
-        self.interface.setMotorAngleControllerParameters(self.motors[1],self.motor1Params)
 
 
     def reach_target_angles(self, angle1, angle2):
         self.interface.increaseMotorAngleReferences(self.motors,[angle1,angle2])
 
-        #code below only aimed to display angles
+        #Wait for the angle to be reached
         while not self.interface.motorAngleReferencesReached(self.motors) :
             time.sleep(0.01)
 
@@ -72,6 +62,17 @@ class MyRobot:
 
     def move_forward_cm(self, distance):
         self.move_forward((1.0/self.wheelradius)*distance)
+
+    def move_forward_cm_speed(self, distance, speed):
+        """
+        Speed has to be provided in meter per second
+        """
+        check_frequency = 40
+        discretised_distance = speed/check_frequency
+        while distance > 0:
+            self.move_forward((1.0/self.wheelradius)*discretised_distance)
+            distance -= discretised_distance
+            time.sleep(1.0/check_frequency)
 
     def distance_to_wheel_angle(self, distance):
         return distance/self.wheelradius
@@ -131,8 +132,8 @@ def main():
     robot = MyRobot([0,1], 2.74, 15.97)
     robot.interface.startLogging('logger.txt')
 
-    robot.move_forward_avoid_obstacles()
-
+    # robot.move_forward_avoid_obstacles()
+    robot.move_forward_cm_speed(100, 0.5)
 
     robot.interface.stopLogging()
     robot.interface.terminate()
