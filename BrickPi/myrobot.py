@@ -113,6 +113,7 @@ class MyRobot:
         angle1 = 10
         angle2 = 10
         while True:
+            #Monitoring the value of the touch sensor and react
             state_touch_sensor_0 = self.interface.getSensorValue(self.touch_port[0])
             state_touch_sensor_1 = self.interface.getSensorValue(self.touch_port[1])
             if state_touch_sensor_0 and state_touch_sensor_1:
