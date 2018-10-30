@@ -133,7 +133,7 @@ def main():
     robot.interface.startLogging('logger.txt')
 
     # robot.move_forward_avoid_obstacles()
-    robot.move_forward_cm_speed(100, 0.5)
+    robot.move_forward_cm_speed(100, 0.25)
 
     robot.interface.stopLogging()
     robot.interface.terminate()
