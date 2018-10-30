@@ -65,12 +65,7 @@ class MyRobot:
 
         #code below only aimed to display angles
         while not self.interface.motorAngleReferencesReached(self.motors) :
-          #  motorAngles = self.interface.getMotorAngles(self.motors)
-          #  referenceAngles = self.interface.getMotorAngleReferences(self.motors)
-          #  if motorAngles :
-          #      print "Motor angles: ", motorAngles[0][0], ", ", motorAngles[1][0]
-          #      print "Want to reach ", referenceAngles[0], ", ", referenceAngles[1]
-            time.sleep(0.07)
+            time.sleep(0.01)
 
     def move_forward(self, angle):
         self.reach_target_angles(angle, angle)
