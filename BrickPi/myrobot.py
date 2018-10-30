@@ -123,8 +123,6 @@ class MyRobot:
                 #handle obstacle
                 touched_0 = state_touch_sensor_0[0]
                 touched_1 = state_touch_sensor_1[0]
-		print(touched_0)
-		print(touched_1)
                 if touched_0 or touched_1:
                     self.avoid_obstacle(touched_0, touched_1)
                 else:
