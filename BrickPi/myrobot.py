@@ -63,22 +63,8 @@ class MyRobot:
     def move_forward_cm(self, distance):
         self.move_forward((1.0/self.wheelradius)*distance)
 
-    def move_forward_cm_speed(self, distance, speed):
-        """
-        Speed has to be provided in meter per second
-        """
-        check_frequency = 40
-        discretised_distance = speed/check_frequency
-        while distance > 0:
-            first_timer = time.clock()
-            self.move_forward((1.0/self.wheelradius)*discretised_distance)
-            distance -= discretised_distance
-            first_timer -= time.clock()
-            to_wait = 1.0/check_frequency - first_timer
-            print(first_timer)
-            print(to_wait)
-            if to_wait > 0:
-                time.sleep(to_wait)
+    def move_forward_speed(self, speed):
+        self.interface.setMotorRotationSpeedReferences(self.motors, [speed, speed])
 
     def distance_to_wheel_angle(self, distance):
         return distance/self.wheelradius
@@ -93,6 +79,11 @@ class MyRobot:
 
 
     def avoid_obstacle(self, touched_0, touched_1):
+        #Stop the motor
+        self.interface.setMotorPwm(self.motors[0], 0)
+        self.interface.setMotorPwm(self.motors[1], 0)
+
+        #Go backward and turn
         self.move_forward_cm(-5)
         direction = ['left', 'right']
 
@@ -102,7 +93,6 @@ class MyRobot:
         elif touched_0:
             #obstacle to the left
             self.turn(direction[1], random.randint(90,175)*math.pi/180)
-
         elif touched_1:
             #obstacle to the right
             self.turn(direction[0], random.randint(90,175)*math.pi/180)
@@ -140,7 +130,7 @@ def main():
     robot.interface.startLogging('logger.txt')
 
     # robot.move_forward_avoid_obstacles()
-    robot.move_forward_cm_speed(100, 0.25)
+    robot.move_forward_speed(0.25)
 
     robot.interface.stopLogging()
     robot.interface.terminate()
